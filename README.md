@@ -1,79 +1,28 @@
 # Proyecto: Screener de Acciones para detectar oportunidades de inversión + Evaluación cualitativa de los resultados
 
-Este proyecto combina análisis cuantitativo mediante screeners fundamentales con una etapa cualitativa basada en ventajas competitivas (moats) para identificar empresas de alta calidad a partir de criterios objetivos y estratégicos de inversión.
-El objetivo es construir un pipeline reproducible de análisis, desde la extracción de datos financieros con Python hasta la interpretación mediante una presentación final (PowerPoint).
-Este enfoque permite evaluar empresas desde dos dimensiones:
-- Fundamentals sólidos (números)
-- Ventaja competitiva sostenible (negocio)
+Este proyecto combina una serie de screeners de acciones construidos en Python con una sección de análisis cualitativo basado en las ventajas competitivas (moats) de los negocios que surgieron como oportunidades de los screeners. El objetivo principal del proyecto es crear un pipeline que permita automatizar el filtrado de empresas antes de hacer un análisis profundo. A su vez, mi intención es que este proyecto no solo sirva para mostrar habilidades de Python y es por eso que añado una evaluación cualitativa de algunas empresas que pasaron los filtros.
 
-## 📈 Insights principales
 
-- **Empresas con alto *earnings growth*** tienden a ocupar las primeras posiciones del ranking, lo que puede resultar atractivo para inversores con mayor tolerancia al riesgo.  
-- **Un PEG alto combinado con un PE bajo** indica posibles oportunidades de revalorización, ya que el precio actual no refleja plenamente el potencial de crecimiento de la empresa.  
-- **El score se aplica a diferentes sectores**, permitiendo comparar calidad y valuación de forma relativa dentro de cada industria.
-- **El enfoque es adaptable al perfil del inversor**, pudiendo ajustar los pesos de las métricas en el score para priorizar crecimiento, estabilidad o valuación según la estrategia deseada.
-- **El score, tal como está calculado, es dependiente del periodo de referencia**: estandarizar con datos contemporáneos limita la comparabilidad histórica.
-  
 ## 📌 Objetivo
-Aplicar técnicas de análisis de datos para evaluar y comparar empresas del mercado bursátil mediante un **score propio** que integra métricas financieras clave (crecimiento, rentabilidad, apalancamiento y valuación).  
-El objetivo es **identificar oportunidades de inversión accionables** y demostrar un flujo de trabajo completo y reproducible que abarca recolección de datos, preprocesamiento, análisis exploratorio, visualización de resultados y comunicación de insights.
+Desarrollar un flujo de trabajo que permita:
+- Obtener un universo de acciones para analizar y definir que métricas resultan relevantes a la hora de evaluar.
+- Construir un dataset financiero extrayendo las métricas de interes a traves de (`yfinance`).
+- Aplicar 4 screeners (Value Investing de Buffett y de Benjamin Graham, High Growth y uno basado en criterios personales) que filtren las acciones a partir del cumplimiento de las métricas de interes.
+- Seleccionar solo las empresas con puntaje perfecto en cada screener. En este caso se pueden hacer salvedades según los intereses de cada uno, tomo esa decisión para simplificar el posterior análisis cualitativo.
+- Evaluar cualitativamente las ventajas del negocio mediante un prompt específicamente diseñado para esta sección, basandome en los resultados que brinde el LLM (ChatGPT).
+- Producir un informe visual (Power Point) para presentar criterios y resultados de ambos análisis.
 
-## 📊 Descripción del flujo de trabajo
-1. **Obtención de datos**  
-Para este análisis se desarrolló un dataset propio a partir de datos obtenidos mediante la API de Yahoo Finance (`yfinance`).  
-El proceso consistió en:
+Mi idea con este proyecto es ir más allá del uso de las herramientas de datos. Busco integrar el análisis con una lectura cualitativa de los negocios y que este flujo pueda ser replicable semanalmente, y de utilidad, como inversor minorista.
 
-- **Selección del universo de empresas**: lista de tickers representativos de distintos sectores y tamaños de mercado. (S&P 500, Nasdaq y Dow Jones)
-- **Descarga automatizada de datos financieros**: métricas de crecimiento, rentabilidad, apalancamiento y valuación.
-- **Estructuración del dataset**: integración en un único `DataFrame` y exportación a `Acciones.csv` para uso en el análisis principal.
 
-El código base para este proceso es:
+## 📊 Estructura del Proyecto
+1. **Construcción del Dataset (Notebook 1)**  
 
-```python
-import yfinance as yf
-import pandas as pd
-
-sublistas = [tickers[i:i + 10] for i in range(0, len(tickers), 10)]
-for i, bloque in enumerate(sublistas):
-    print(i, bloque)
-
-atributos = [
-    "marketCap",
-    "sector",
-    "trailingPE",
-    "forwardPE",
-    "priceToBook",
-    "dividendYield",
-    "beta",
-    "profitMargins",
-    "returnOnEquity",
-    "debtToEquity",
-    "currentRatio",
-    "earningsGrowth",
-    "trailingPegRatio",
-    "returnOnAssets",
-    "epsForward",
-]
-
-dfs = []  # Acá guardamos todos los dataframes
-
-for i, bloque in enumerate(sublistas):
-    datos = []  # Se crea una nueva lista vacía para cada bloque
-    for ticker in bloque:
-        info = yf.Ticker(ticker).info
-        data = {atributo: info.get(atributo, None) for atributo in atributos}
-        data["Ticker"] = ticker
-        datos.append(data)
-    
-    df_bloque = pd.DataFrame(datos).set_index("Ticker")
-    dfs.append(df_bloque)  # Almacenar Dataframes por bloques
-
-# Creamos un único dataframe con todos los datos
-df_final = pd.concat(dfs)
-
-df_final.to_csv("Acciones.csv")
-```
-Se crean sublistas y se itera creando dataframes más pequeños para evitar bugs o fallas a la hora de consultar con la API.
+El script consiste en:
+- Definir el universo de empresas (acorté tiempos mediante un dataset de otro proyecto que tenía). En este caso utilice un conjunto de empresas formado por el S&P 500, Nasdaq, Dow Jones, ADRs de empresas argentinas y algunas de otros mercados (Brasil, Europa, Taiwan).
+- Automatizar la extracción de métricas clave desde la API de Yahoo Finance mediante `yfinance`
+- Integra todo en un único `DataFrame`
+- Exporta los datos a un archivo `Screener_investing.csv` para que la construcción de screeners pueda ejecutarse sin realizar llamadas adicionales a la API.
 
 2. **Preprocesamiento**  
     - **Gestión de valores faltantes**:  
@@ -140,6 +89,15 @@ Incluye la línea y = x como referencia para identificar si el mercado espera cr
 - scikit-learn
 - yfinance
 - Jupyter Notebook
+
+## 📈 Insights principales
+
+- **Empresas con alto *earnings growth*** tienden a ocupar las primeras posiciones del ranking, lo que puede resultar atractivo para inversores con mayor tolerancia al riesgo.  
+- **Un PEG alto combinado con un PE bajo** indica posibles oportunidades de revalorización, ya que el precio actual no refleja plenamente el potencial de crecimiento de la empresa.  
+- **El score se aplica a diferentes sectores**, permitiendo comparar calidad y valuación de forma relativa dentro de cada industria.
+- **El enfoque es adaptable al perfil del inversor**, pudiendo ajustar los pesos de las métricas en el score para priorizar crecimiento, estabilidad o valuación según la estrategia deseada.
+- **El score, tal como está calculado, es dependiente del periodo de referencia**: estandarizar con datos contemporáneos limita la comparabilidad histórica.
+  
 
 ## 🚀 Posibles mejoras futuras
 

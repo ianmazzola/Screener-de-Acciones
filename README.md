@@ -38,7 +38,7 @@ El script consiste en:
 
 
 
-2. **Creación de los Screeners (Notebook 2)**
+<ins>2. **Creación de los Screeners (Notebook 2)**</ins>
 
 El script implementa 4 screeners basados en distintas filosofías de inversión:
     - **Screener 1: Warren Buffett**:  
@@ -63,7 +63,7 @@ Los resultados se exportan a Excel para visualizar las tablas de forma sencilla.
 
 
 
-3. **Análisis cualitativo de moats utilizando LLMs**  
+<ins>3. **Análisis cualitativo de moats utilizando LLMs**</ins> 
 
 Una vez obtenidas las empresas que tuvieron puntaje perfecto en alguno de los 4 screeners, incorporo al proyecto una etapa cualitativa en el cual utilizo un prompt estructurado para obtener las ventajas competitivas de cada empresa. El objetivo acá es contextualizar los puntajes del screener y evaluar la sostenibilidad de los modelos de negocios. La sección 2 del proyecto simplemente es una preselección de acciones.
 
@@ -111,7 +111,7 @@ Output esperado:
 
 
 
-4. **Score**  
+<ins>4. **Score**</ins>  
 Para ordenar las empresas según su atractivo relativo, se desarrolló un **score ponderado** que combina métricas de crecimiento, rentabilidad, apalancamiento y valuación:
 
 - **Selección de métricas**: *earnings growth*, *ROE*, *debt-to-equity*, *trailing PE*, *forward PE*, *PEG*, *Price-to-Book*, entre otras.

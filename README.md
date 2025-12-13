@@ -15,6 +15,17 @@ Desarrollar un flujo de trabajo que permita:
 Mi idea con este proyecto es ir más allá del uso de las herramientas de datos. Busco integrar el análisis con una lectura cualitativa de los negocios y que este flujo pueda ser replicable semanalmente, y de utilidad, como inversor minorista.
 
 
+
+
+## 🛠 Tecnologías y librerías
+- Python 
+- Pandas, NumPy
+- yfinance
+- Jupyter Notebook
+- Microsoft Excel (como soporte)
+- Microsoft Power Point (presentación)
+  
+
 ## 📊 Estructura del Proyecto
 1. **Construcción del Dataset (Notebook 1)**  
 
@@ -22,27 +33,76 @@ El script consiste en:
 - Definir el universo de empresas (acorté tiempos mediante un dataset de otro proyecto que tenía). En este caso utilice un conjunto de empresas formado por el S&P 500, Nasdaq, Dow Jones, ADRs de empresas argentinas y algunas de otros mercados (Brasil, Europa, Taiwan).
 - Automatizar la extracción de métricas clave desde la API de Yahoo Finance mediante `yfinance`
 - Integra todo en un único `DataFrame`
-- Exporta los datos a un archivo `Screener_investing.csv` para que la construcción de screeners pueda ejecutarse sin realizar llamadas adicionales a la API.
+- Exporta los datos a un archivo `Screener_investing1.csv` para que la construcción de screeners pueda ejecutarse sin realizar llamadas adicionales a la API.
 
-2. **Preprocesamiento**  
-    - **Gestión de valores faltantes**:  
-  - No hubo eliminación de ninguna columna, debido a que no tenían un gran porcentaje de valores nulos.  
-  - Imputación utilizando medianas y medias según las distribuciones de cada variable.
-  - Imputación utilizando ceros, debido al significado del valor nulo de dicha variable. 
+2. **Creación de los Screeners (Notebook 2)**
 
-    - **Detección y tratamiento de outliers**:  
-  - Identificación de valores extremos mediante diagramas de caja (*boxplots*) y análisis de rango intercuartílico (IQR).  
-  - Ajuste o eliminación de valores que distorsionaban el análisis, manteniendo coherencia en la comparación entre empresas.  
+El script implementa 4 screeners basados en distintas filosofías de inversión:
+    - **Screener 1: Warren Buffett**:  
+  - Enfocado en la calidad del negocio, ROE, baja deuda, flujos de caja y estabilidad.  
 
-![Outliers](Outliers.png)
+    - **Screener 2: Benjamin Graham**:  
+  - Enfocado de forma conservadora basandose en valuaciones y perspectiva financiera. 
 
-3. **Análisis Exploratorio de Datos (EDA)**  
-Con el dataset limpio se realizó un análisis exploratorio para comprender la distribución de las métricas y las relaciones entre ellas:
+    - **Screener 3: High Growth**:  
+  - Enfocado en crecimiento acelerado, con valuaciones y deuda razonable. 
 
-- **Distribuciones individuales**: histogramas y *boxplots* para variables clave como *earnings growth*, *ROE*, *debt-to-equity*, *PE* y *PEG*.  
-- **Mapas de correlaciones**: identificación de relaciones significativas entre indicadores de rentabilidad, apalancamiento y valuación.  
-- **Comparaciones sectoriales**: visualizaciones *scatter* (por ejemplo, *ROE* vs *Price-to-Book*) diferenciadas por sector, tamaño de empresa o múltiplos de valuación.
-- **Análisis de relaciones esperadas vs. atípicas**: detección de empresas que se desvían de patrones sectoriales, potencialmente indicando oportunidades o riesgos.
+    - **Screener 4: Personalizado**:  
+  - Basado en criterios propios de inversión, combinando lo que más valoro de las tres filosofías anteriores.+
+
+Cada screener:
+- Evalúa criterios uno por uno.
+- Cuenta cuántos criterios cumple cada empresa y se ordena de forma descendiente según la cantidad de criterios aprobados.
+- Las tablas se formatean con colores (verde/rojo) para visualizar cumplimiento.
+- Se muestran solo las top 50 empresas por screener para claridad.
+
+Los resultados se exportan a Excel para visualizar las tablas de forma sencilla.
+
+3. **Análisis cualitativo de moats utilizando LLMs**  
+
+Una vez obtenidas las empresas que tuvieron puntaje perfecto en alguno de los 4 screeners, incorporo al proyecto una etapa cualitativa en el cual utilizo un prompt estructurado para obtener las ventajas competitivas de cada empresa. El objetivo acá es contextualizar los puntajes del screener y evaluar la sostenibilidad de los modelos de negocios. La sección 2 del proyecto simplemente es una preselección de acciones.
+
+Para el análisis cualitativo se analizan cinco dimensiones de ventajas competitivas:
+
+- Network effects (red de usuarios)
+- Switching costs
+- Intangibles (marca, patentes, regulación)
+- Ventajas de costos
+- Counter-positioning
+
+<details>
+<summary><strong>Prompt utilizado para el análisis de moats</strong></summary>
+
+[Analizá la empresa {TICKER – Nombre} desde la perspectiva de ventajas competitivas (moats).
+
+Evaluá cada atributo de forma independiente, usando información pública, historia del negocio y su posición competitiva.
+
+Para cada atributo:
+- Indicá el nivel actual del moat:
+    - Inexistente
+    - Pequeño
+    - Amplio
+- Indicá la tendencia futura esperada:
+    - Se achica
+    - Se mantiene estable
+    - Se amplía
+- Justificá brevemente (3–5 líneas).
+
+Atributos a evaluar:
+1. Network Effects (red de usuarios)
+2. Switching Costs
+3. Intangibles (marca, patentes, contenido, regulación)
+4. Cost Advantages
+5. Counter-positioning
+
+Output esperado:
+- Tabla resumen con los 5 atributos
+- Justificación breve por atributo
+- Conclusión final:
+    - ¿La empresa posee un moat sostenible en el largo plazo?
+    - ¿Cuál es el principal riesgo competitivo?]
+
+</details>
 
 4. **Score**  
 Para ordenar las empresas según su atractivo relativo, se desarrolló un **score ponderado** que combina métricas de crecimiento, rentabilidad, apalancamiento y valuación:
@@ -81,14 +141,6 @@ Análisis equivalente para el sector financiero, con patrones y dispersiones dis
 Incluye la línea y = x como referencia para identificar si el mercado espera crecimiento o no de las empresas de Tecnología y Real Estate.  
 ![PE Ratio comparativo](PE_Ratio.png)
 
-
-## 🛠 Tecnologías y librerías
-- Python 
-- Pandas, NumPy
-- Matplotlib, Seaborn
-- scikit-learn
-- yfinance
-- Jupyter Notebook
 
 ## 📈 Insights principales
 

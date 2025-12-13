@@ -125,5 +125,6 @@ Como parte complementaria, se incluye un PowerPoint que resume:
 
 - **Dashboard interactivo**: implementación en Power BI o Tableau para explorar empresas y métricas de forma dinámica.
 - **Mejorar la extracción de nombres para el universo de empresas**: Este proyecto es dependiente de un dataset antiguo, que no representa actualmente al detalle a los tres índices (S&P 500, Nasdaq, Dow Jones) que forman la mayoría del universo. Debería encontrar una forma alternativa de crear una lista de Python con todos esos nombres, con una metodología distinta a la que usé en mi proyecto antiguo
-- **Nuevas APIs**:  Este proyecto se basa en la información que provee Yahoo Finance. Trabajar con una nueva API premium podría brindar un análisis mas robusto y no tan dependiente de datos públicos. 
+- **Nuevas APIs**:  Este proyecto se basa en la información que provee Yahoo Finance. Trabajar con una nueva API premium podría brindar un análisis mas robusto y no tan dependiente de datos públicos.
+- **Alcance del análisis cualitativo**: No busca hacer recomendaciones de inversión dicha sección, para ello habría que ser más exhaustivo y evaluar la calidad del management, riesgos, valuaciones intrínsecas, entre otros aspectos.
 

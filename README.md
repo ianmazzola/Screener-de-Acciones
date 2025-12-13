@@ -28,7 +28,7 @@ Mi idea con este proyecto es ir más allá del uso de las herramientas de datos.
 
 ## 📊 Estructura del Proyecto
 
-<u>1. **Construcción del Dataset (Notebook 1)**</u>  
+<ins>1. **Construcción del Dataset (Notebook 1)**</ins>  
 
 El script consiste en:
 - Definir el universo de empresas (acorté tiempos mediante un dataset de otro proyecto que tenía). En este caso utilice un conjunto de empresas formado por el S&P 500, Nasdaq, Dow Jones, ADRs de empresas argentinas y algunas de otros mercados (Brasil, Europa, Taiwan).

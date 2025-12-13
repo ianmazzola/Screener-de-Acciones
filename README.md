@@ -65,7 +65,7 @@ Los resultados se exportan a Excel para visualizar las tablas de forma sencilla.
 
 <ins>3. **Análisis cualitativo de moats utilizando LLMs**</ins> 
 
-Una vez obtenidas las empresas que tuvieron puntaje perfecto en alguno de los 4 screeners, incorporo al proyecto una etapa cualitativa en el cual utilizo un prompt estructurado para obtener las ventajas competitivas de cada empresa. El objetivo acá es contextualizar los puntajes del screener y evaluar la sostenibilidad de los modelos de negocios. La sección 2 del proyecto simplemente es una preselección de acciones.
+Una vez obtenidas las empresas que tuvieron puntaje perfecto en alguno de los 4 screeners, incorporo al proyecto una etapa cualitativa en el cual utilizo un prompt estructurado para obtener las ventajas competitivas de cada empresa. El objetivo acá es contextualizar los puntajes del screener y evaluar la sostenibilidad de los modelos de negocios. La sección 2 del proyecto simplemente es una preselección de acciones y queremos que la sección 3 elimine falsos positivos, aumentando las chances de encontrar un negocio con altas probabilidades de sostener los retornos a largo plazo.
 
 Para el análisis cualitativo se analizan cinco dimensiones de ventajas competitivas:
 
@@ -111,56 +111,19 @@ Output esperado:
 
 
 
-<ins>4. **Score**</ins>  
-Para ordenar las empresas según su atractivo relativo, se desarrolló un **score ponderado** que combina métricas de crecimiento, rentabilidad, apalancamiento y valuación:
+<ins>4. **Presentación en Power Point**</ins>  
 
-- **Selección de métricas**: *earnings growth*, *ROE*, *debt-to-equity*, *trailing PE*, *forward PE*, *PEG*, *Price-to-Book*, entre otras.
-- **Estandarización de variables**: uso de `StandardScaler` para garantizar comparabilidad entre métricas con escalas distintas.
-- **Asignación de ponderaciones**: pesos definidos según relevancia teórica y empírica en la valoración de empresas.
-- **Cálculo del ranking**: empresas ordenadas de mayor a menor score, identificando las más atractivas dentro de cada sector.
-
-5. **Casos de estudio**  
-Se aplicó el score a eventos históricos para evaluar su capacidad predictiva y su utilidad en contextos reales:
-
-- **Apple (2016)**: simulación del score en el momento de la inversión de Warren Buffett, mostrando fundamentos sólidos previos a un periodo de gran revalorización.
-- **NVIDIA (2017 y 2023)**: análisis antes y después de hitos clave como el boom de la inteligencia artificial, evidenciando cambios en métricas y posición en el ranking.
-- **Microsoft (2025)**: evaluación en un contexto de impacto por aranceles, analizando cómo el score refleja cambios en sus fundamentales.
-
-Estos casos permiten validar el score como herramienta de *screening* inicial y entender sus limitaciones, especialmente en relación a la estandarización basada en un periodo de referencia fijo.
-
-![Microsoft](Microsoft.png)
-
-## 📊 Visualizaciones clave
-
-**1. Mapa de correlaciones de métricas financieras**  
-Identifica relaciones entre indicadores clave.  
-![Mapa de correlaciones](Mapa_Correlaciones.png)
-
-**2. Relación *ROE* vs *Price-to-Book* – Sector Tecnológico**  
-Muestra cómo empresas tecnológicas se distribuyen en función de rentabilidad y valuación, destacando potenciales oportunidades y riesgos.  
-![ROE vs P/B Tecnología](PB_Tecnologico.png)
-
-**3. Relación *ROE* vs *Price-to-Book* – Sector Financiero**  
-Análisis equivalente para el sector financiero, con patrones y dispersiones distintas al tecnológico.  
-![ROE vs P/B Financiero](PB_Financiero.png)
-
-**4. Relación entre *Trailing PE* y *Forward PE***  
-Incluye la línea y = x como referencia para identificar si el mercado espera crecimiento o no de las empresas de Tecnología y Real Estate.  
-![PE Ratio comparativo](PE_Ratio.png)
+Como parte complementaria, se incluye un PowerPoint que resume:
+- el flujo de trabajo
+- los screeners y sus criterios
+- un análisis de las ventajas competitivas de 10 empresas que pasaron todos los criterios
+- conclusiones 
 
 
-## 📈 Insights principales
-
-- **Empresas con alto *earnings growth*** tienden a ocupar las primeras posiciones del ranking, lo que puede resultar atractivo para inversores con mayor tolerancia al riesgo.  
-- **Un PEG alto combinado con un PE bajo** indica posibles oportunidades de revalorización, ya que el precio actual no refleja plenamente el potencial de crecimiento de la empresa.  
-- **El score se aplica a diferentes sectores**, permitiendo comparar calidad y valuación de forma relativa dentro de cada industria.
-- **El enfoque es adaptable al perfil del inversor**, pudiendo ajustar los pesos de las métricas en el score para priorizar crecimiento, estabilidad o valuación según la estrategia deseada.
-- **El score, tal como está calculado, es dependiente del periodo de referencia**: estandarizar con datos contemporáneos limita la comparabilidad histórica.
-  
 
 ## 🚀 Posibles mejoras futuras
 
 - **Dashboard interactivo**: implementación en Power BI o Tableau para explorar empresas y métricas de forma dinámica.
-- **Ampliación del universo de empresas**: incluir empresas de mercados emergentes, índices sectoriales adicionales (Merval, Mercados de China o Brasil, etc.) y small caps para ampliar el alcance del análisis.
-- **Optimización y ajuste flexible de ponderaciones**:  permitir modificar los coeficientes del score para representar distintas filosofías de inversión. Esto podría dar pie a un proyecto que recomiende ponderaciones óptimas según el perfil de riesgo y los objetivos del usuario.
-- **Actualizaciones**: buscar la forma de descargar nuevos datos, modificar el universo y recalcular el score de forma periódica.
+- **Mejorar la extracción de nombres para el universo de empresas**: Este proyecto es dependiente de un dataset antiguo, que no representa actualmente al detalle a los tres índices (S&P 500, Nasdaq, Dow Jones) que forman la mayoría del universo. Debería encontrar una forma alternativa de crear una lista de Python con todos esos nombres, con una metodología distinta a la que usé en mi proyecto antiguo
+- **Nuevas APIs**:  Este proyecto se basa en la información que provee Yahoo Finance. Trabajar con una nueva API premium podría brindar un análisis mas robusto y no tan dependiente de datos públicos. 
+

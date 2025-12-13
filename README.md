@@ -27,13 +27,16 @@ Mi idea con este proyecto es ir más allá del uso de las herramientas de datos.
   
 
 ## 📊 Estructura del Proyecto
-### 1. **Construcción del Dataset (Notebook 1)**  
+
+1. **Construcción del Dataset (Notebook 1)**  
 
 El script consiste en:
 - Definir el universo de empresas (acorté tiempos mediante un dataset de otro proyecto que tenía). En este caso utilice un conjunto de empresas formado por el S&P 500, Nasdaq, Dow Jones, ADRs de empresas argentinas y algunas de otros mercados (Brasil, Europa, Taiwan).
 - Automatizar la extracción de métricas clave desde la API de Yahoo Finance mediante `yfinance`
 - Integra todo en un único `DataFrame`
 - Exporta los datos a un archivo `Screener_investing1.csv` para que la construcción de screeners pueda ejecutarse sin realizar llamadas adicionales a la API.
+
+
 
 2. **Creación de los Screeners (Notebook 2)**
 
@@ -57,6 +60,8 @@ Cada screener:
 - Se muestran solo las top 50 empresas por screener para claridad.
 
 Los resultados se exportan a Excel para visualizar las tablas de forma sencilla.
+
+
 
 3. **Análisis cualitativo de moats utilizando LLMs**  
 
@@ -103,6 +108,8 @@ Output esperado:
     - ¿Cuál es el principal riesgo competitivo?]
 
 </details>
+
+
 
 4. **Score**  
 Para ordenar las empresas según su atractivo relativo, se desarrolló un **score ponderado** que combina métricas de crecimiento, rentabilidad, apalancamiento y valuación:

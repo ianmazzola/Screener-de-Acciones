@@ -41,6 +41,7 @@ El script consiste en:
 <ins>2. **Creación de los Screeners (Notebook 2)**</ins>
 
 El script implementa 4 screeners basados en distintas filosofías de inversión:
+
     - **Screener 1: Warren Buffett**:  
   - Enfocado en la calidad del negocio, ROE, baja deuda, flujos de caja y estabilidad.  
 
